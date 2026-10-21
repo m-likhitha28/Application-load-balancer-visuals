@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Application Load Balancer Visual · #Buildwithvinit</title>
+<meta name="description" content="Animated, beginner-friendly explanation of the AWS Application Load Balancer, told through Ravi's online shop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>The receptionist at Ravi's shop</h1>
+    <p>How an AWS Application Load Balancer shares visitors between web servers.</p>
+  </div>
+  <button id="themeBtn" class="btn ghost" type="button" aria-label="Switch page between light and dark">Light page</button>
+</header>
+<main class="layout">
+  <nav class="side" aria-label="Steps">
+    <ol id="steps"></ol>
+  </nav>
+  <section class="stage">
+    <div class="controls" role="group" aria-label="Playback controls">
+      <button id="playBtn" class="btn" type="button">Play</button>
+      <button id="pauseBtn" class="btn" type="button">Pause</button>
+      <button id="resetBtn" class="btn" type="button">Reset</button>
+      <button id="failBtn" class="btn danger" type="button" disabled>Fail a server</button>
+    </div>
+    <div class="diagram">
+<svg id="svg" viewBox="0 0 1100 620" role="img" aria-label="Animated diagram: visitors reach Route 53, then an Application Load Balancer, listener and target group of EC2 web servers" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="sky" cx="40%" cy="30%" r="90%"><stop offset="0" stop-color="#14224a"/><stop offset="1" stop-color="#070d22"/></radialGradient>
+  <path id="pEnv1" d="M150,325 L320,325"/>
+  <path id="pEnv" d="M150,325 L370,325"/>
+  <path id="pEnv2" d="M150,325 L545,325"/>
+  <path id="pDq" d="M255,285 L255,130"/>
+  <path id="pDa" d="M320,95 C400,95 440,160 440,250"/>
+  <path id="pT1" d="M655,325 C690,325 700,190 735,190"/>
+  <path id="pT2" d="M655,325 C690,325 700,430 735,430"/>
+  <path id="pT3" d="M655,325 C680,325 690,512 720,512 L975,512 L975,470"/>
+  <path id="pCW" d="M500,415 L500,520"/>
+</defs>
+<rect width="1100" height="620" fill="url(#sky)"/>
+<g id="stars" fill="#9fb4ff"></g>
+
+<!-- WIRES -->
+<g class="wires" fill="none" stroke-width="3" stroke-linecap="round">
+  <path class="rev flow" data-step="1" d="M150,325 L190,325" stroke="#4da3ff"/>
+  <path class="rev flow" data-step="2" d="M255,285 L255,130" stroke="#4da3ff"/>
+  <path class="rev flow" data-step="2" d="M320,95 C400,95 440,160 440,250" stroke="#4da3ff"/>
+  <path class="rev flow" data-step="3" d="M320,325 L370,325" stroke="#4da3ff"/>
+  <path class="rev flow" data-step="4" d="M510,325 L545,325" stroke="#2dd4bf"/>
+  <path class="rev flow" data-step="5" d="M655,325 C690,325 700,190 735,190" stroke="#fbbf24"/>
+  <path class="rev flow" data-step="5" d="M655,325 C690,325 700,430 735,430" stroke="#fbbf24"/>
+  <path class="rev flow" data-step="8" d="M655,325 C680,325 690,512 720,512 L975,512 L975,470" stroke="#fbbf24"/>
+  <path class="rev flow" data-step="9" d="M500,415 L500,520" stroke="#f472b6"/>
+</g>
+
+<!-- BOXES -->
+<g class="rev" data-step="1">
+  <rect x="20" y="285" width="130" height="80" rx="14" class="box" stroke="#4da3ff"/>
+  <text x="85" y="318" class="t1" text-anchor="middle">Visitors</text>
+  <text x="85" y="340" class="t2" text-anchor="middle">phones &amp; laptops</text>
+  <text x="85" y="268" text-anchor="middle" font-size="22">👩 👨 🧑</text>
+</g>
+<g class="rev" data-step="1">
+  <rect x="190" y="285" width="130" height="80" rx="40" class="box" stroke="#4da3ff"/>
+  <text x="255" y="322" class="t1" text-anchor="middle">Internet</text>
+  <text x="255" y="342" class="t2" text-anchor="middle">ravi-shop.com</text>
+</g>
+<g class="rev" data-step="2">
+  <rect x="180" y="55" width="140" height="80" rx="14" class="box" stroke="#4da3ff"/>
+  <text x="250" y="88" class="t1" text-anchor="middle">Route 53</text>
+  <text x="250" y="110" class="t2" text-anchor="middle">DNS phone book</text>
+  <text x="390" y="78" class="t2" fill="#4da3ff">"Use the ALB address"</text>
+</g>
+<g class="rev" data-step="3">
+  <rect x="365" y="235" width="150" height="180" rx="16" class="sg" id="sgAlb" opacity="0"/>
+  <rect x="380" y="250" width="130" height="150" rx="14" class="box" stroke="#2dd4bf" stroke-width="3"/>
+  <text x="445" y="300" class="t1" text-anchor="middle">Application</text>
+  <text x="445" y="320" class="t1" text-anchor="middle">Load Balancer</text>
+  <text x="445" y="346" class="t2" text-anchor="middle">the receptionist</text>
+  <text x="445" y="368" class="t2" text-anchor="middle">across 2 AZs</text>
+</g>
+<g class="rev" data-step="4">
+  <rect x="545" y="265" width="110" height="120" rx="14" class="box" stroke="#fbbf24"/>
+  <text x="600" y="289" class="t1" text-anchor="middle">Listener</text>
+  <text x="600" y="312" class="t3" text-anchor="middle" fill="#fbbf24">HTTPS :443</text>
+  <text x="600" y="332" class="t3" text-anchor="middle" fill="#fbbf24">HTTP :80 → 443</text>
+  <text x="600" y="356" class="t3" text-anchor="middle">Rule: / → shop</text>
+</g>
+<g class="rev" data-step="5">
+  <rect x="700" y="60" width="380" height="505" rx="18" class="box" stroke="#a78bfa" stroke-width="3"/>
+  <text x="720" y="84" class="t1" fill="#a78bfa">Target group: shop-web</text>
+  <rect x="715" y="100" width="350" height="200" rx="12" class="az"/>
+  <text x="730" y="119" class="t3">Availability Zone A</text>
+  <rect x="715" y="330" width="350" height="200" rx="12" class="az"/>
+  <text x="730" y="349" class="t3">Availability Zone B</text>
+  <text x="720" y="552" class="t3" id="ec2sg" opacity="0">EC2 security group: only the ALB may connect</text>
+</g>
+<g class="rev" data-step="5" id="ec2a">
+  <rect x="735" y="150" width="140" height="80" rx="12" class="ec2 ok"/>
+  <text x="805" y="182" class="t1" text-anchor="middle">EC2 web-1</text>
+  <text x="805" y="204" class="t2" text-anchor="middle">healthy</text>
+  <text x="858" y="172" font-size="18">✅</text>
+</g>
+<g class="rev" data-step="5" id="ec2b">
+  <rect x="735" y="390" width="140" height="80" rx="12" class="ec2 ok" id="ec2bRect"/>
+  <text x="805" y="422" class="t1" text-anchor="middle">EC2 web-2</text>
+  <text x="805" y="444" class="t2" text-anchor="middle" id="ec2bTxt">healthy</text>
+  <text x="858" y="412" font-size="18" id="chk2">✅</text>
+  <text x="858" y="412" font-size="18" id="x2" display="none">❌</text>
+</g>
+<g class="rev" data-step="8" id="ec2c">
+  <rect x="905" y="390" width="140" height="80" rx="12" class="ec2 launch" id="ec2cRect"/>
+  <text x="975" y="422" class="t1" text-anchor="middle">EC2 web-3</text>
+  <text x="975" y="444" class="t2" text-anchor="middle" id="ec2cTxt">starting…</text>
+  <text x="1028" y="412" font-size="18" id="chk3" display="none">✅</text>
+  <text x="975" y="490" class="t3" text-anchor="middle" fill="#a78bfa">Auto Scaling Group</text>
+</g>
+<g class="rev" data-step="9">
+  <rect x="360" y="520" width="200" height="64" rx="12" class="box" stroke="#f472b6"/>
+  <text x="460" y="548" class="t1" text-anchor="middle">CloudWatch</text>
+  <text x="460" y="568" class="t2" text-anchor="middle">watches the numbers</text>
+  <text x="372" y="428" class="t3" fill="#fb923c">ALB SG: 80/443 in</text>
+  <text x="530" y="248" font-size="22">🛡️</text>
+  <text x="388" y="200" class="t3" fill="#2dd4bf">HTTPS/TLS ends here</text>
+</g>
+<g id="legendTxt"></g>
+<g id="packets"></g>
+</svg>
+    </div>
+    <article class="caption" aria-live="polite">
+      <h2 id="capTitle"></h2>
+      <dl>
+        <div><dt>In plain words</dt><dd id="capPlain"></dd></div>
+        <div><dt>Technical name</dt><dd id="capTech"></dd></div>
+        <div><dt>Watch the picture</dt><dd id="capWatch"></dd></div>
+      </dl>
+    </article>
+    <p class="legend">✉️ incoming request · 🛒 customer request · ✅ healthy · ❌ unhealthy · 📦 response · 🛡️ HTTPS · 📊 monitoring</p>
+  </section>
+</main>
+<footer class="foot">#Buildwithvinit · Ravi's shop story · MIT licence</footer>
+<script src="js/app.js"></script>
+</body>
+</html>
